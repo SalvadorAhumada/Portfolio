@@ -3,7 +3,7 @@
   <div class="video-background">
 
     <div class="video-foreground">
-      <iframe src="https://www.youtube.com/embed/pcznaEKW7Ts?controls=0&showinfo=0&rel=0&autoplay=1&mute=1&loop=1&playlist=pcznaEKW7Ts" frameborder="0" allowfullscreen></iframe>
+      <iframe :src="getVideo()" frameborder="0" allowfullscreen></iframe>
     </div>
 
   </div>
@@ -11,15 +11,92 @@
 <div id="pattern-layer">
   <div class="main animated fadeIn delay-1s">
       <h1>Salvador Ahumada</h1>
-      <p><a class="effect-2" href="#">about me</a></p>
+      <p>Developer, designer and music addict.</p>
+      <p><a class="effect-2" href="#">More about me</a></p>
   </div>
+</div>
+<div class="music-video animated fadeIn delay-3s">
+  <p @click="changeVideo()">"{{selected.title}}" by {{selected.author}}</p>
 </div>
 </section>
 </template>
 
 <script>
 export default {
+  data(){
+    return {
+      videos : [
+        {
+          title: 'Inside',
+          author: 'Unkle',
+          url: 'VLVtIbfQtEw'
+    },
+    {
+      title: 'Ever Rest',
+      author: 'Unkle',
+      url: 'iGzOfXITytg'
+    },
+    {
+      title: 'Only you',
+      author: 'Unkle',
+      url:'pcznaEKW7Ts'
+    },
+    {
+      title: 'Lonely Soul',
+      author:'Unkle',
+      url:'5TSH6OmO-Dw'
+    },
+    {
+      title: 'Burn my shadow',
+      author:'Unkle',
+      url:'yByFAGtfssg'
+    },
+    {
+      title: 'I love You',
+      author: 'Woodkid',
+      url: 'KQu8FOjJXdI'
+    },
+    {
+      title: 'Rabbit In Your Headlights',
+      author:'Unkle',
+      url:'XbByxzZ-4dI'
+    },
+    {
+      title: 'For 12',
+      author:'Other Lives',
+      url:'AWMqgeIDJs8'
+    },
+    {
+      title: 'Dust Bowl II',
+      author:'Other Lives',
+      url:'qYHP0Otl3xA'
+    },
+    {
+      title: 'Le fantôme',
+      author:'Monogrenade',
+      url:'Rk3olQJnbMM'
+    }
+  ],
+  selected:{},
+  video:null
+    }
+  },
+  methods:{
+    getVideo(){
+        
+        this.video = Math.floor((Math.random() * 10));
 
+        this.selected = this.videos[this.video]
+
+        return `https://www.youtube.com/embed/${this.selected.url}?controls=0&showinfo=0&rel=0&autoplay=1&mute=1&loop=1&playlist=${this.selected.url}`
+    },
+    changeVideo(){
+      let video = Math.floor((Math.random() * 9));
+      if(video === this.video)
+        video++
+        this.selected = this.videos[video];
+    }
+  }
 }
 </script>
 
@@ -45,6 +122,22 @@ export default {
     background:rgba(255, 255, 255, 0.795);
     padding:20px 40px;
     font-size:3rem;
+    border:1px solid white;
+    transition:0.5s;
+}
+
+.music-video p {
+      font-family: 'Roboto Mono', monospace;
+      margin:0;
+      font-size: 1.2rem;
+      font-weight: bold;
+}
+
+.main h1:hover {
+    color:white;
+    background:none;
+    border:1px solid white;
+    transition:0.5s;
 }
 
 .main p a {
@@ -54,7 +147,13 @@ export default {
     transition:0.5s;
     color:white;
     text-decoration: none;  
+}
 
+.main p {
+     font-family: 'Roboto Mono', monospace; 
+    font-size:1.3rem; 
+    margin: 0;
+    margin-top: 30px;
 }
 
 .main p a:hover {
@@ -101,6 +200,7 @@ a:before, a > span:before, a:after, a > span:after {
 section {
   width:100%;
   height:100%;
+  position:relative;
 }
 
 * { box-sizing: border-box; }
@@ -123,13 +223,24 @@ section {
     display:flex;
     align-items:center;
     justify-content:center;
-  height:100%;
-	color: #fff;
+    height:100%;
+    color: #fff;
    background:url(
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAALElEQVQYV2NkYGD4z8DAcJYBCTAyMDCcYWBgMEaWgAmC1MElkAXhEuiCYAkA3ioINdFY3lAAAAAASUVORK5CYII=
    ) repeat;
 }
 
+.music-video {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: white;
+    color: white;
+    color: black;
+    padding: 5px;
+    font-size: 1.2rem;
+    cursor:pointer;
+}
 @media (min-aspect-ratio: 16/9) {
   .video-foreground { height: 300%; top: -100%; }
 }
