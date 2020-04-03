@@ -3,98 +3,48 @@
   <div class="video-background">
 
     <div class="video-foreground">
-      <iframe :src="getVideo()" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/iGzOfXITytg?controls=0&showinfo=0&rel=0&autoplay=1&mute=1&loop=1&playlist=iGzOfXITytg" frameborder="0" allowfullscreen></iframe>
     </div>
 
   </div>
 
 <div id="pattern-layer">
-  <div class="main animated fadeIn delay-1s">
+  <div class="main animated fadeIn delay-2s">
       <h1>Salvador Ahumada</h1>
       <p>Developer, designer and music addict.</p>
-      <p><a class="effect-2" href="#">More about me</a></p>
+      <p>
+        <a class="effect-2" @click='showMore()'>More about me
+          <span class="material-icons">
+            arrow_downward
+          </span>
+        </a>
+      </p>
   </div>
 </div>
-<div class="music-video animated fadeIn delay-3s">
-  <p @click="changeVideo()">"{{selected.title}}" by {{selected.author}}</p>
-</div>
+  <transition
+    name="custom-classes-transition"
+    enter-active-class="animated slideInUp"
+    leave-active-class="animated slideOutDown"
+  >
+    <aboutMe v-if= "show" v-on:close-modal="show =false"/> 
+  </transition>
 </section>
 </template>
 
 <script>
+import aboutMe from "./about-me";
 export default {
-  data(){
+  components:{
+    aboutMe
+  },
+  data() {
     return {
-      videos : [
-        {
-          title: 'Inside',
-          author: 'Unkle',
-          url: 'VLVtIbfQtEw'
-    },
-    {
-      title: 'Ever Rest',
-      author: 'Unkle',
-      url: 'iGzOfXITytg'
-    },
-    {
-      title: 'Only you',
-      author: 'Unkle',
-      url:'pcznaEKW7Ts'
-    },
-    {
-      title: 'Lonely Soul',
-      author:'Unkle',
-      url:'5TSH6OmO-Dw'
-    },
-    {
-      title: 'Burn my shadow',
-      author:'Unkle',
-      url:'yByFAGtfssg'
-    },
-    {
-      title: 'I love You',
-      author: 'Woodkid',
-      url: 'KQu8FOjJXdI'
-    },
-    {
-      title: 'Rabbit In Your Headlights',
-      author:'Unkle',
-      url:'XbByxzZ-4dI'
-    },
-    {
-      title: 'For 12',
-      author:'Other Lives',
-      url:'AWMqgeIDJs8'
-    },
-    {
-      title: 'Dust Bowl II',
-      author:'Other Lives',
-      url:'qYHP0Otl3xA'
-    },
-    {
-      title: 'Le fantôme',
-      author:'Monogrenade',
-      url:'Rk3olQJnbMM'
-    }
-  ],
-  selected:{},
-  video:null
+      show: false
     }
   },
   methods:{
-    getVideo(){
-        
-        this.video = Math.floor((Math.random() * 10));
-
-        this.selected = this.videos[this.video]
-
-        return `https://www.youtube.com/embed/${this.selected.url}?controls=0&showinfo=0&rel=0&autoplay=1&mute=1&loop=1&playlist=${this.selected.url}`
-    },
-    changeVideo(){
-      let video = Math.floor((Math.random() * 9));
-      if(video === this.video)
-        video++
-        this.selected = this.videos[video];
+    showMore() {
+      this.show = true;
     }
   }
 }
@@ -108,7 +58,7 @@ export default {
 
 .main {
     width: 100%;
-    height: 40vh;
+    height: 60vh;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -117,13 +67,13 @@ export default {
 
 .main h1 {
     font-family: 'Roboto Mono', monospace;
-    color:black;
     margin:0;
-    background:rgba(255, 255, 255, 0.795);
     padding:20px 40px;
     font-size:3rem;
-    border:1px solid white;
     transition:0.5s;
+    color:white;
+    background:none;
+    border:1px solid white;
 }
 
 .music-video p {
@@ -134,10 +84,10 @@ export default {
 }
 
 .main h1:hover {
-    color:white;
-    background:none;
-    border:1px solid white;
+    background:rgba(255, 255, 255, 0.795);
     transition:0.5s;
+    border:1px solid white;
+    color:black;
 }
 
 .main p a {
@@ -153,7 +103,6 @@ export default {
      font-family: 'Roboto Mono', monospace; 
     font-size:1.3rem; 
     margin: 0;
-    margin-top: 30px;
 }
 
 .main p a:hover {
@@ -176,7 +125,12 @@ a:before, a > span:before, a:after, a > span:after {
 
 .effect-2 {
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-around;
 }
+
 .effect-2:before, .effect-2:after {
   left: 0;
   top: 0;
@@ -226,25 +180,27 @@ section {
     height:100%;
     color: #fff;
    background:url(
-data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAALElEQVQYV2NkYGD4z8DAcJYBCTAyMDCcYWBgMEaWgAmC1MElkAXhEuiCYAkA3ioINdFY3lAAAAAASUVORK5CYII=
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAMElEQVQYV2NkYGA4w8DAsIUBDTAyMDA0MDAw+KBLwiRA6lEkkSVQJNEl4JLYJMCSAKd9CFN9zUF6AAAAAElFTkSuQmCC
    ) repeat;
 }
 
-.music-video {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: white;
-    color: white;
-    color: black;
-    padding: 5px;
-    font-size: 1.2rem;
-    cursor:pointer;
-}
 @media (min-aspect-ratio: 16/9) {
   .video-foreground { height: 300%; top: -100%; }
 }
 @media (max-aspect-ratio: 16/9) {
   .video-foreground { width: 300%; left: -100%; }
+}
+
+@media screen and (max-width: 520px) {
+  .main h1 {
+    font-size: calc(25px + 6 * ((100vw - 320px) / 680));
+    padding: 15px 30px;
+  }
+
+  .main p,
+  .main p a {
+    font-size: calc(15px + 6 * ((100vw - 320px) / 680));
+    padding: 15px 30px;
+  }
 }
 </style>
